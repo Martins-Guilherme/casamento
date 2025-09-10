@@ -1,0 +1,17 @@
+{
+  "name": "casamento",
+  "version": "1.0.0",
+  "description": "Aplicacao para comunicar com o banco de de dados para gerir uma lista de casamento",
+  "license": "ISC",
+  "author": "Guilherme",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "express": "^5.1.0",
+    "prisma": "^6.15.0"
+  }
+}

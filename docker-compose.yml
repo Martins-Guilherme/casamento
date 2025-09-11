@@ -11,6 +11,19 @@ services:
       - POSTGRES_DB=neondb
     volumes:
       - pgdata:/data/postgres
+  app:
+    build: .
+    container_name: api_server
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/usr/app
+    links:
+      - database
+    depends_on:
+      - database
+    
+    
 volumes:
   pgdata:
     driver: local

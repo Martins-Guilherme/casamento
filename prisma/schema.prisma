@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -15,20 +14,19 @@ datasource db {
 }
 
 model Convidado {
-  id       Int     @id @default(autoincrement())
+  id       Int                @id @default(autoincrement())
   nome     String
-  email    String  @unique
+  email    String             @unique
   telefone String?
   mensagem String?
   presente TabelaDePresentes?
 }
 
 model TabelaDePresentes {
-  id     Int     @id @default(autoincrement())
-  nome   String
-  imagem String?
-  descricao String?
-  convidadoId Int?
-  convidado Convidado? @relation(fields: [convidadoId], references: [id])
-
+  id          Int        @id @default(autoincrement())
+  nome        String
+  imagem      String?
+  descricao   String?
+  convidadoId Int?       @unique
+  convidado   Convidado? @relation(fields: [convidadoId], references: [id])
 }

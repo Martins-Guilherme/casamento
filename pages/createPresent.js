@@ -1,8 +1,7 @@
-import {
-  prisma,
-  router
-} from "./utilits.js"
+import { prisma } from "./utilits.js";
+import express from "express";
 
+const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {

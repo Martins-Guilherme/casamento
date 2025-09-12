@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -20,7 +20,9 @@ model Convidado {
   email    String             @unique
   telefone String?
   mensagem String?
-  presente TabelaDePresentes?
+  token    String?            @unique
+  usado    Boolean            @default(false)
+  presente TabelaDePresentes? // Relação de volta para o presente escolhido
 }
 
 model TabelaDePresentes {

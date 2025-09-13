@@ -1,8 +1,8 @@
 import express from 'express';
-import managementPresentsRouter from "./pages/presentsRouter.js";
-import managementGuestsRouter from "./pages/guestsRouter.js"
-import escolherComTokenRouter from "./pages/escolherComToken.js"
-import presentCreatRouter from "./pages/creatUpdatePresent.js"
+import presentCreatRouter from "./pages/creatUpdatePresent.js" // criar presente
+import managementPresentsRouter from "./pages/presentsRouter.js"; // Criar e Listar presentes
+import managementGuestsRouter from "./pages/guestsRouter.js"  // Criar, listar, deletar convidados
+import escolherComTokenRouter from "./pages/escolherComToken.js"  // Selecionar o presente para o convidado.
 import dotenv from 'dotenv'
 
 const app = express();

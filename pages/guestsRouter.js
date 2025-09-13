@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import express from "express";
 const router = express.Router();
 
-// ROTAS PARA GERENCIAR A CRIAÇÃO, DELEÇÃO, APRESENTAÇÃO E ATUALIZAÇÃO DE CONVIDADOS
+// ROTAS PARA GERENCIAR A CRIAÇÃO, DELEÇÃO, LISTAR 
 
 // MIDDLEWARE DE AUTENTICAÇÃO
 const autenticarAdmin = (req, res, next) => {
@@ -20,9 +20,22 @@ const autenticarAdmin = (req, res, next) => {
 // Rota para CRIAR convidados.
 router.post("/create", async (req, res) => {
   try {
-    const { nome, email, mensagem, telefone } = req.body
+    const { nome, email, mensagem, telefone, presenteId } = req.body;
     const tokenGerado = uuidv4()
 
+    // 1. Verificamos se o presente já está ocupado antes de qualquer coisa.
+    const presenteExistente = await prisma.tabelaDePresentes.findUnique({
+      where: {
+        id: presenteId
+      },
+    });
+
+    if (presenteExistente && presenteExistente.convidadoId !== null) {
+      // Se o presente existe e já tem um convidado, retornamos.
+      return res.status(400).json({ error: "Este presente já foi escolhido." });
+    }
+
+    // 2. Se o presente estiver disponível, criamos o convidado.
     const novoConvidado = await prisma.convidado.create({
       data: {
         nome,
@@ -30,13 +43,22 @@ router.post("/create", async (req, res) => {
         mensagem,
         telefone,
         token: tokenGerado,
-        usado: false
-      }
-    })
-    res.status(201).json(novoConvidado);
+        usado: true,
+      },
+    });
 
+    // 3. E só então atualizamos o presente, agora com o ID do novo convidado.
+    const presenteAtualizado = await prisma.tabelaDePresentes.update({
+      where: {
+        id: presenteId // Usamos apenas o ID do presente, que é único.
+      },
+      data: {
+        convidadoId: novoConvidado.id // Passamos o ID do convidado para vincular o presente.
+      },
+    });
+    res.status(201).json({ convidado: novoConvidado, presenteAtualizado: presenteAtualizado })
   } catch (error) {
-    console.error("Erro ao tentar criar o convidado.", error);
+    console.error("Erro ao tentar criar o convidado e escolher o presente.", error);
     res.status(501).json({ error: "Erro interno." })
   }
 })

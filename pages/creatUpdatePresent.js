@@ -3,7 +3,9 @@ import express from "express";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+
+// CRIAÇÃO DO PRESENTE
+router.post("/creat", async (req, res) => {
   try {
     // pegar os dados enviados pelo meu gerente e a dignissima dele, só dele.
     const { nome, descricao, imagem } = req.body;

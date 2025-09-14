@@ -1,6 +1,4 @@
-FROM node:lts-alpine
-
-RUN npm install -g npm@8.12.2
+FROM node:20 AS builder
 
 WORKDIR /usr/app
 
@@ -12,11 +10,12 @@ RUN npx prisma generate --schema=./prisma/schema.prisma
 
 COPY . .
 
+FROM node:20-alpine
+
+WORKDIR /usr/app
+
+COPY --from=builder /usr/app ./
+
 EXPOSE 5000
 
 CMD ["npm", "start"]
-# CMD ["npm", "run", "dev"] para poder inicializar localmente
-
-
-
-

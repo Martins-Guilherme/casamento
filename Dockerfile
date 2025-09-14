@@ -12,7 +12,8 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
+# CMD ["npm", "run", "dev"] para poder inicializar localmente
 
 
 

@@ -8,7 +8,7 @@ COPY package*.json ./
 
 RUN npm install --legacy-peer-deps
 
-RUN npx install prisma generate
+RUN npx prisma generate
 
 COPY . .
 

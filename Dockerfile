@@ -8,6 +8,8 @@ COPY package*.json ./
 
 RUN npm install --legacy-peer-deps
 
+RUN npm install prisma generate
+
 COPY . .
 
 EXPOSE 5000
